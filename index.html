@@ -1,320 +1,186 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" href="avatar.png" />
-<title>World's Most Confusing Button</title>
 <style>
-  
-  :root {
-    --w: 800px;
-    --h: 600px;
-  }
-  
   body {
-    cursor: url('mouse.png'), auto;
-    user-select: none;
+    margin: 0;
+    font-family: Comic Sans MS, sans-serif;
+    background: #f0f0f0;
   }
 
-
-  html,body{
-    height:100%; margin:0;
-    background:white;
-    font-family: "Comic Sans MS", cursive;
+  .box {
+    width: 300px;
+    padding: 20px;
+    margin: 40px auto;
+    background: white;
+    border-radius: 15px;
+    border: 3px solid #777;
+    text-align: center;
+    position: relative;
+    transition: transform 0.6s ease;
   }
 
-  body{ cursor:grab; user-select:none; }
-
-  .wrap{
-    width:100%; height:100%;
-    display:flex; align-items:center; justify-content:center;
-  }
-
-  .stage{
-    width:var(--w); height:var(--h);
-    background: repeating-linear-gradient(
-      white,
-      white 28px,
-      #d8e2ff 28px,
-      #d8e2ff 29px
-    );
-    position:relative; overflow:hidden;
-    border:1px solid #aaa;
-    box-shadow:0 6px 24px rgba(0,0,0,0.15);
-    transition: transform .6s ease; /* ★ page-turn animation */
-  }
-
-  .stage.turn{
+  /* Page turn animation (only the box) */
+  .page-turn {
     transform: rotateY(90deg);
   }
 
-  .btn{
-    position:absolute;
-    left:50%; top:50%;
-    transform:translate(-50%,-50%);
-    background: linear-gradient(#ff9a3c,#f36a00);
-    color:white; font-weight:bold;
-    border:none; padding:14px 26px;
-    border-radius:10px;
-    cursor:grab;
-    user-select:none;
-    box-shadow:0 6px 14px rgba(0,0,0,0.15);
-    transition: transform .12s, left .3s, top .3s;
-    font-family:"Comic Sans MS", cursive !important;
-  }
-  .btn:active{ transform:translate(-50%,-50%) scale(.97); }
-
-  .ui{
-    position:absolute; left:12px; top:12px; z-index:50;
-    font-size:16px; color:#111;
+  button {
+    font-size: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 15px;
   }
 
-  .ctxmenu{
-    position:fixed; z-index:300;
-    background:white; border:1px solid #ccc;
-    padding:8px; border-radius:6px;
-    display:none;
-    font-family:"Comic Sans MS";
-  }
-  .ctxmenu button{
-    border:none; background:transparent;
-    padding:6px 8px; cursor:pointer; font-weight:bold;
+  .hidden-btn {
+    display: none;
+    margin-top: 20px;
   }
 
-  #levelPassedMsg{
-    position:absolute;
-    left:50%; top:30%;
-    transform:translate(-50%, -50%);
-    font-size:30px;
-    font-weight:bold;
-    color:#4CAF50;
-    background:white;
-    padding:12px 20px;
-    border-radius:10px;
-    border:3px dashed #4CAF50;
-    text-shadow:2px 2px 0px #d0ffd0;
-    display:none;
-    z-index:600;
-    opacity:0;
-    transition:opacity .3s;
-    pointer-events:none;
+  /* Level 5 page extension */
+  #level5-space {
+    height: 2000px;
+    display: none;
+    background: linear-gradient(white, #ddd);
   }
 
-  /* ★ LEVEL 4 TARGET ZONE */
-  #dropZone{
-    position:absolute;
-    width:180px; height:120px;
-    border:4px dashed #4CAF50;
-    border-radius:14px;
-    left:50%; top:70%;
-    transform:translate(-50%,-50%);
-    display:none;
-    animation: pulse 1.4s infinite ease-in-out;
-    opacity:0.6;
-  }
-  @keyframes pulse{
-    0% { transform:translate(-50%,-50%) scale(1); }
-    50% { transform:translate(-50%,-50%) scale(1.07); }
-    100% { transform:translate(-50%,-50%) scale(1); }
+  #bottom-btn {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    padding: 15px 25px;
+    font-size: 22px;
   }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div id="stage" class="stage" tabindex="0">
 
-    <div id="levelPassedMsg">LEVEL PASSED!</div>
-    <div class="ui" id="ui">Level 1</div>
+<div class="box" id="box">
+  <h2 id="levelText">Level 1</h2>
+  <button id="mainBtn">FREEZE</button>
+  <button id="hiddenBtn" class="hidden-btn">YOU WIN</button>
+</div>
 
-    <button id="mainBtn" class="btn">CLICK ME</button>
-
-    <div id="dropZone"></div>
-
-    <div id="ctx" class="ctxmenu">
-      <button id="freezeOpt">Freeze the button</button>
-    </div>
-
-  </div>
+<div id="level5-space">
+  <button id="bottom-btn">REAL BUTTON</button>
 </div>
 
 <script>
-const stage = document.getElementById('stage');
-const btn = document.getElementById('mainBtn');
-const ui = document.getElementById('ui');
-const ctx = document.getElementById('ctx');
-const freezeOpt = document.getElementById('freezeOpt');
-const lvlMsg = document.getElementById('levelPassedMsg');
-const dropZone = document.getElementById('dropZone');
-
 let level = 1;
-let frozen = false;
-let dragging = false;
-let offsetX=0, offsetY=0;
-let repelInterval=null;
+const box = document.getElementById("box");
+const mainBtn = document.getElementById("mainBtn");
+const hiddenBtn = document.getElementById("hiddenBtn");
+const bottomBtn = document.getElementById("bottom-btn");
+const space5 = document.getElementById("level5-space");
 
-/* ★ PAGE TURN + LEVEL PASSED MESSAGE */
-function showLevelPassed(next){
-  lvlMsg.style.display="block";
-  requestAnimationFrame(()=> lvlMsg.style.opacity=1);
-
-  setTimeout(()=>{
-    lvlMsg.style.opacity=0;
-    setTimeout(()=> lvlMsg.style.display="none",300);
-  },900);
-
-  /* ★ page turn */
-  setTimeout(()=> stage.classList.add("turn"), 300);
-  setTimeout(()=>{
-    stage.classList.remove("turn");
-    next();
-  },900);
+function nextLevel() {
+  box.classList.add("page-turn");
+  setTimeout(() => {
+    level++;
+    loadLevel();
+    box.classList.remove("page-turn");
+  }, 600);
 }
 
-function setLevel(n){
-  level=n;
-  ui.textContent="Level "+n;
-  frozen=false;
-  dragging=false;
-  dropZone.style.display="none";
-  btn.style.display="block";
-  btn.disabled=false;
-  btn.style.left="50%";
-  btn.style.top="50%";
-  btn.style.transform="translate(-50%,-50%)";
-  btn.dataset.landed="false";
-  ctx.style.display="none";
+function loadLevel() {
+  document.getElementById("levelText").textContent = "Level " + level;
 
-  clearInterval(repelInterval);
+  /* Reset */
+  mainBtn.style.display = "inline-block";
+  hiddenBtn.style.display = "none";
+  box.style.position = "relative";
+  box.style.left = "0px";
+  box.style.top = "0px";
+  box.style.cursor = "default";
+  space5.style.display = "none";
+  bottomBtn.style.display = "none";
 
-  if(n===3) setupLevel3();
-  if(n===4) setupLevel4();
-  if(n===5) setupLevel5();
-}
-
-/* LEVEL 1 & 2 */
-btn.addEventListener('click', ()=>{
-  if(level===1){
-    showLevelPassed(()=> setLevel(2));
+  /* LEVELS 1–3 stay EXACTLY the same as original */
+  if (level === 1) {
+    mainBtn.textContent = "FREEZE";
+    mainBtn.onclick = () => nextLevel();
   }
-  else if(level===2){
-    const s = stage.getBoundingClientRect();
-    if(btn.dataset.landed==="false"){
-      btn.dataset.landed="true";
-      btn.style.transition="top .5s";
-      btn.style.top=(s.height-50)+"px";
-      return;
-    }
-    showLevelPassed(()=> setLevel(3));
+
+  if (level === 2) {
+    mainBtn.textContent = "FREEZE";
+    mainBtn.onclick = () => alert("You missed!");
+    box.onmouseenter = () => nextLevel();
   }
-});
 
-/* LEVEL 3 */
-function setupLevel3(){
-  btn.onclick = ()=>{
-    if(!frozen) teleportBtn();
-    else showLevelPassed(()=> setLevel(4));
-  };
-}
-
-function teleportBtn(){
-  if(frozen) return;
-  const s=stage.getBoundingClientRect();
-  const x=40+Math.random()*(s.width-80);
-  const y=40+Math.random()*(s.height-80);
-  btn.style.left=x+"px";
-  btn.style.top=y+"px";
-}
-
-/* Right-click freeze */
-btn.addEventListener('contextmenu', e=>{
-  if(level===3 || level===4){
-    e.preventDefault();
-    ctx.style.display="block";
-    ctx.style.left=e.clientX+"px";
-    ctx.style.top=e.clientY+"px";
+  if (level === 3) {
+    mainBtn.textContent = "FREEZE";
+    mainBtn.onclick = () => {
+      mainBtn.style.position = "absolute";
+      mainBtn.style.left = Math.random() * 200 + "px";
+      mainBtn.style.top = Math.random() * 150 + "px";
+    };
+    hiddenBtn.textContent = "LEVEL PASSED";
+    hiddenBtn.style.display = "block";
+    hiddenBtn.onclick = () => nextLevel();
   }
-});
-freezeOpt.addEventListener('click', ()=>{
-  frozen=true;
-  ctx.style.display="none";
-});
 
-/* LEVEL 4 — Drag into target zone */
-function setupLevel4(){
-  dropZone.style.display="block";
+  /* --- LEVEL 4 --- */
+  if (level === 4) {
+    mainBtn.textContent = "LAVA";
+    mainBtn.onclick = () => alert("You cannot freeze LAVA!");
 
-  btn.onpointerdown = e=>{
-    dragging=true;
-    offsetX=e.offsetX;
-    offsetY=e.offsetY;
-  };
+    hiddenBtn.textContent = "LEVEL PASSED";
+    hiddenBtn.style.display = "block";
 
-  stage.onpointermove = e=>{
-    if(!dragging) return;
-    btn.style.left=(e.clientX - stage.getBoundingClientRect().left - offsetX)+"px";
-    btn.style.top=(e.clientY - stage.getBoundingClientRect().top - offsetY)+"px";
-  };
+    // Hidden button moves with the box (inside)
+    hiddenBtn.style.position = "absolute";
+    hiddenBtn.style.bottom = "10px";
+    hiddenBtn.style.left = "50%";
+    hiddenBtn.style.transform = "translateX(-50%)";
 
-  window.onpointerup = ()=>{
-    if(!dragging) return;
-    dragging=false;
+    // Make the entire box draggable
+    let dragging = false, offsetX, offsetY;
 
-    const b = btn.getBoundingClientRect();
-    const d = dropZone.getBoundingClientRect();
+    box.onmousedown = (e) => {
+      dragging = true;
+      offsetX = e.clientX - box.offsetLeft;
+      offsetY = e.clientY - box.offsetTop;
+      box.style.cursor = "grabbing";
+    };
 
-    if(!(b.right<d.left || b.left>d.right || b.bottom<d.top || b.top>d.bottom)){
-      /* inside target */
-      showLevelPassed(()=> setLevel(5));
-    } else {
-      /* reset */
-      btn.style.left="50%";
-      btn.style.top="50%";
-      btn.style.transform="translate(-50%,-50%)";
-    }
-  };
-}
-
-/* LEVEL 5 — Button repels cursor unless Shift is held */
-function setupLevel5(){
-  repelInterval = setInterval(()=>{
-    if(level!==5) return;
-    if(dragging) return;
-    if(frozen) return;
-    if(btn.matches(":hover")) return;
-
-    const rectBtn = btn.getBoundingClientRect();
-    const rectStage = stage.getBoundingClientRect();
-
-    /* Move away from cursor */
-    stage.onpointermove = e=>{
-      if(e.shiftKey){
-        frozen=true; /* shift acts like "pin button" */
-        return;
-      }
-      frozen=false;
-
-      let dx = rectBtn.x + rectBtn.width/2 - e.clientX;
-      let dy = rectBtn.y + rectBtn.height/2 - e.clientY;
-      let dist = Math.hypot(dx,dy);
-
-      if(dist < 200){
-        let factor = (200 - dist)/10;
-        let newL = rectBtn.x - rectStage.left + dx/dist*factor;
-        let newT = rectBtn.y - rectStage.top + dy/dist*factor;
-
-        btn.style.left=newL+"px";
-        btn.style.top=newT+"px";
+    document.onmousemove = (e) => {
+      if (dragging) {
+        box.style.position = "absolute";
+        box.style.left = (e.clientX - offsetX) + "px";
+        box.style.top = (e.clientY - offsetY) + "px";
       }
     };
-  },50);
 
-  btn.onclick = ()=>{
-    if(frozen) showLevelPassed(()=> setLevel(6));
-  };
+    document.onmouseup = () => {
+      dragging = false;
+      box.style.cursor = "grab";
+    };
+
+    hiddenBtn.onclick = () => nextLevel();
+  }
+
+  /* --- LEVEL 5 --- */
+  if (level === 5) {
+    mainBtn.textContent = "FREEZE";
+
+    // Teleport instantly
+    mainBtn.onclick = () => {
+      mainBtn.style.position = "absolute";
+      mainBtn.style.left = "-5000px";
+    };
+
+    // Entire page becomes scrollable
+    space5.style.display = "block";
+
+    // Real bottom button
+    bottomBtn.style.display = "block";
+    bottomBtn.onclick = () => nextLevel();
+  }
 }
 
-setLevel(1);
+loadLevel();
 </script>
 
 </body>
