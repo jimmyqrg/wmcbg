@@ -31,7 +31,6 @@
       <div class="ui" id="ui">Level 1</div>
 
       <button id="mainBtn" class="btn">CLICK ME</button>
-      <div id="speechBox" class="speech-box" aria-live="polite">NOPE..</div>
 
       <!-- Level 4: counter -->
       <div id="l4Area" class="l4-area hidden">
@@ -53,27 +52,47 @@
           <span class="l7-word">YOUR</span>
           <span class="l7-space"> </span>
           <span class="l7-word">MONEY!</span>
-          <div class="l7-money-bar">
-            <span id="l7MoneyDisplay" class="l7-money">$5412950</span>
-            <button id="l7ContributeBtn" class="btn l7-contribute-btn">CONTRIBUTE</button>
-          </div>
+        </div>
+        <div id="l7MoneyBar" class="l7-money-bar hidden">
+          <span id="l7MoneyDisplay" class="l7-money">$5412950</span>
+          <button id="l7ContributeBtn" class="btn l7-contribute-btn">CONTRIBUTE</button>
         </div>
         <div id="l7FormedWord" class="l7-formed-word hidden"></div>
+      </div>
+
+      <!-- Level 8 -->
+      <div id="l8Area" class="l8-area hidden">
+        <p class="l8-text">LOADING BUTTON</p>
+        <div id="l8BarWrap" class="l8-bar-wrap">
+          <div id="l8BarFill" class="l8-bar-fill"></div>
+          <span id="l8BarLabel" class="l8-bar-label">0%</span>
+        </div>
       </div>
     </div>
   </div>
 
   <div id="ctx" class="ctxmenu">
     <button id="freezeOpt">Freeze the button</button>
+    <button id="ctxRestartOpt">Restart</button>
   </div>
 
   <div id="stageCtx" class="ctxmenu">
     <button id="restartOpt">Restart</button>
   </div>
 
+  <div id="l4Ctx" class="ctxmenu">
+    <button id="l4PasteOpt">Paste</button>
+    <button id="l4CtxRestartOpt">Restart</button>
+  </div>
+
+  <div id="l8Ctx" class="ctxmenu">
+    <button id="l8CopyOpt">Copy progress</button>
+    <button id="l8CtxRestartOpt">Restart</button>
+  </div>
+
   <div id="finalArea" class="final-area">
     <div class="final-spacer"></div>
-    <button id="finalBtn" class="btn final-btn">I WAS HIDING DOWN HERE</button>
+    <button id="finalBtn" class="btn final-btn">CLICK ME</button>
   </div>
 </div>
 
@@ -87,6 +106,8 @@
     </div>
   </div>
 </div>
+
+<div id="globalToast" class="global-toast"></div>
 
 <script src="script.js"></script>
 
