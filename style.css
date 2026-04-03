@@ -48,7 +48,7 @@ body{
   border: 2px solid #000;
   background: var(--paper);
   border-radius: 22px;
-  padding: clamp(20px, 6vw, 48px);
+  padding: clamp(28px, 6vw, 56px) clamp(20px, 6vw, 48px) clamp(40px, 8vw, 72px);
   text-align: center;
   box-shadow: 10px 10px 0 #000;
 }
@@ -76,7 +76,7 @@ body{
 .menu-btn{
   position: static;
   transform: none;
-  margin-top: 24px;
+  margin-top: 48px;
 }
 
 .level-select-screen{
@@ -129,6 +129,10 @@ body{
 
 .game-screen{
   padding: 14px;
+}
+
+.game-screen.scrollable{
+  overflow-y: auto;
 }
 
 .wrap{
@@ -248,22 +252,14 @@ body{
   transform: translate(-50%, -50%) scale(1);
 }
 
-.hidden-btn{
-  z-index: 1;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0.9;
-}
-
 .final-area{
   display: none;
   width: 100%;
+  padding-top: 40px;
 }
 
 .final-area .final-spacer{
-  height: 980px;
+  height: 1200px;
 }
 
 .final-btn{
@@ -274,8 +270,168 @@ body{
   margin-bottom: 120px;
 }
 
-.level5{
-  min-height: 1600px;
+/* Level 4 — Counter */
+.l4-area{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.l4-instruction{
+  font-size: clamp(22px, 4vw, 30px);
+  text-align: center;
+  margin: 0;
+  padding: 0 18px;
+}
+
+.l4-counter-btn{
+  position: static;
+  transform: none;
+  font-size: 32px;
+  padding: 16px 36px;
+  min-width: 200px;
+}
+
+/* Level 6 */
+.l6-area{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.l6-text{
+  font-size: clamp(28px, 5vw, 42px);
+  text-align: center;
+  margin: 0;
+  padding: 0 18px;
+}
+
+.l6-link{
+  color: var(--accent);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.l6-link:hover{
+  color: #d06800;
+}
+
+/* Level 7 */
+.l7-area{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.l7-btn-normal{
+  position: static;
+  transform: none;
+  cursor: pointer;
+}
+
+.l7-btn-normal.shake{
+  animation: l7Shake 0.52s ease;
+}
+
+@keyframes l7Shake{
+  0%,100%{ transform: rotate(0deg); }
+  20%{ transform: rotate(-12deg); }
+  40%{ transform: rotate(11deg); }
+  60%{ transform: rotate(-8deg); }
+  80%{ transform: rotate(6deg); }
+}
+
+.l7-btn-normal.jump{
+  animation: l7Jump 0.7s ease;
+}
+
+@keyframes l7Jump{
+  0%{ transform: translateY(0); }
+  18%{ transform: translateY(-22px); }
+  36%{ transform: translateY(0); }
+  54%{ transform: translateY(-14px); }
+  72%{ transform: translateY(0); }
+  100%{ transform: translateY(0); }
+}
+
+.l7-speech{
+  position: static;
+  transform: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+
+.l7-speech.show{
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+
+.l7-char{
+  cursor: pointer;
+  padding: 0 1px;
+  border-radius: 3px;
+  transition: background 0.12s, color 0.12s;
+}
+
+.l7-char.highlighted{
+  background: var(--accent);
+  color: #fff;
+}
+
+.l7-money-bar{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.l7-money{
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.l7-contribute-btn{
+  position: static;
+  transform: none;
+  font-size: 20px;
+  padding: 8px 18px;
+}
+
+.l7-formed-word{
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: 6px;
+  color: var(--accent);
+  animation: popIn 0.35s ease;
+}
+
+@keyframes popIn{
+  0%{ transform: scale(0.4); opacity: 0; }
+  100%{ transform: scale(1); opacity: 1; }
+}
+
+.l7-formed-btn{
+  position: static;
+  transform: none;
+  font-size: 28px;
+  padding: 14px 32px;
+  animation: popIn 0.35s ease;
+}
+
+.ui.clickable{
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .ui{
@@ -305,26 +461,6 @@ body{
   font-weight: 700;
   font-family: "Patrick Hand", cursive;
   font-size: 20px;
-}
-
-#dropZone{
-  position: absolute;
-  width: 180px;
-  height: 120px;
-  border: 4px dashed #3ea34f;
-  border-radius: 14px;
-  left: 50%;
-  top: 70%;
-  transform: translate(-50%, -50%);
-  display: none;
-  animation: pulse 1.4s infinite ease-in-out;
-  opacity: 0.6;
-}
-
-@keyframes pulse{
-  0%{ transform: translate(-50%, -50%) scale(1); }
-  50%{ transform: translate(-50%, -50%) scale(1.07); }
-  100%{ transform: translate(-50%, -50%) scale(1); }
 }
 
 .modal{

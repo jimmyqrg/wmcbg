@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>World's Most Confusing Button</title>
+<link rel="icon" href="favicon.ico" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Protest+Riot&display=swap" rel="stylesheet" />
@@ -26,20 +27,48 @@
 
 <div class="screen game-screen hidden" id="gameScreen">
   <div class="wrap">
-    <button id="hiddenBtn" class="btn hidden-btn">REAL BUTTON??</button>
-
     <div id="stage" class="stage" tabindex="0">
       <div class="ui" id="ui">Level 1</div>
 
       <button id="mainBtn" class="btn">CLICK ME</button>
       <div id="speechBox" class="speech-box" aria-live="polite">NOPE..</div>
 
-      <div id="dropZone"></div>
+      <!-- Level 4: counter -->
+      <div id="l4Area" class="l4-area hidden">
+        <p class="l4-instruction">CLICK ON THE NUMBER TO INCREASE IT.</p>
+        <button id="l4CounterBtn" class="btn l4-counter-btn">0/10000</button>
+      </div>
+
+      <!-- Level 6 -->
+      <div id="l6Area" class="l6-area hidden">
+        <p class="l6-text">IS THERE NO <span id="l6Link" class="l6-link">NEXT LEVEL</span>?</p>
+      </div>
+
+      <!-- Level 7 -->
+      <div id="l7Area" class="l7-area hidden">
+        <button id="l7Btn" class="btn l7-btn-normal">CLICK ME</button>
+        <div id="l7Speech" class="speech-box l7-speech" aria-live="polite">
+          <span class="l7-char">C</span><span class="l7-char">O</span><span class="l7-char">N</span><span class="l7-char">T</span><span class="l7-char">R</span><span class="l7-char">I</span><span class="l7-char">B</span><span class="l7-char">U</span><span class="l7-char">T</span><span class="l7-char">E</span>
+          <span class="l7-space"> </span>
+          <span class="l7-word">YOUR</span>
+          <span class="l7-space"> </span>
+          <span class="l7-word">MONEY!</span>
+        </div>
+        <div class="l7-money-bar">
+          <span id="l7MoneyDisplay" class="l7-money">$5412950</span>
+          <button id="l7ContributeBtn" class="btn l7-contribute-btn">CONTRIBUTE</button>
+        </div>
+        <div id="l7FormedWord" class="l7-formed-word hidden"></div>
+      </div>
     </div>
   </div>
 
   <div id="ctx" class="ctxmenu">
     <button id="freezeOpt">Freeze the button</button>
+  </div>
+
+  <div id="stageCtx" class="ctxmenu">
+    <button id="restartOpt">Restart</button>
   </div>
 
   <div id="finalArea" class="final-area">
