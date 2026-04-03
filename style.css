@@ -632,12 +632,18 @@ body.level5{
   z-index: 50;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .ui{
-  font-size: 24px;
+  font-size: 28px;
+  font-weight: 700;
   color: #111;
+  background: #fff;
+  border: 2.5px solid #000;
+  border-radius: 10px;
+  padding: 4px 14px;
+  box-shadow: 3px 3px 0 #000;
 }
 
 .ui-icon-btn:first-of-type{
@@ -645,15 +651,21 @@ body.level5{
 }
 
 .ui-icon-btn{
-  background: none;
-  border: none;
-  padding: 2px;
+  background: #fff;
+  border: 2.5px solid #000;
+  border-radius: 10px;
+  padding: 6px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 42px;
+  height: 42px;
+  box-shadow: 3px 3px 0 #000;
+}
+
+.ui-icon-btn:active{
+  transform: scale(0.95);
 }
 
 .ui-icon-btn img{
