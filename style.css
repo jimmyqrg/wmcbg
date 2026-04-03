@@ -204,6 +204,10 @@ body{
   overflow-y: auto;
 }
 
+body.level5{
+  overflow-y: auto;
+}
+
 .wrap{
   position: relative;
   width: 100%;
@@ -627,13 +631,13 @@ body{
 .ui-icon-btn{
   background: none;
   border: none;
-  padding: 0;
+  padding: 2px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
 }
 
 .ui-icon-btn img{

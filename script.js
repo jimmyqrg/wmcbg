@@ -700,8 +700,8 @@ levelsBtn.addEventListener('click', () => {
 });
 
 document.getElementById('uiHomeBtn').addEventListener('click', () => {
-  showScreen(homeScreen);
-  homeScreen.classList.add('loaded');
+  renderLevelSelect();
+  showScreen(levelSelectScreen);
 });
 
 document.getElementById('uiRestartBtn').addEventListener('click', () => {
