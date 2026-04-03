@@ -15,7 +15,7 @@ body{
   height: 100%;
   margin: 0;
   font-family: "Patrick Hand", cursive;
-  background: url('background.png') center / cover no-repeat fixed;
+  background: white;
   color: var(--ink);
   overflow-x: hidden;
   overflow-y: hidden;
