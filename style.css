@@ -296,6 +296,25 @@ body{
   min-width: 200px;
 }
 
+.float-plus-one{
+  position: fixed;
+  pointer-events: none;
+  font-family: "Patrick Hand", cursive;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
+  z-index: 9999;
+  animation: floatUp 0.85s ease-out forwards;
+}
+
+@keyframes floatUp{
+  0%{   opacity: 1; transform: translate(-50%, 0) translateX(0); }
+  25%{  opacity: 1; transform: translate(-50%, -18px) translateX(8px); }
+  50%{  opacity: 0.7; transform: translate(-50%, -38px) translateX(-6px); }
+  75%{  opacity: 0.35; transform: translate(-50%, -56px) translateX(4px); }
+  100%{ opacity: 0; transform: translate(-50%, -72px) translateX(-2px); }
+}
+
 /* Level 6 */
 .l6-area{
   position: absolute;
@@ -394,6 +413,7 @@ body{
   display: flex;
   align-items: center;
   gap: 14px;
+  margin-top: 10px;
 }
 
 .l7-money{
