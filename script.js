@@ -50,6 +50,7 @@ const l8BarLabel = document.getElementById('l8BarLabel');
 const l8BarWrap = document.getElementById('l8BarWrap');
 const l8Ctx = document.getElementById('l8Ctx');
 const l8CopyOpt = document.getElementById('l8CopyOpt');
+const l8DoneBtn = document.getElementById('l8DoneBtn');
 
 let level = 1;
 let unlockedLevel = Number(localStorage.getItem('wmcbg_unlocked')) || 1;
@@ -345,6 +346,10 @@ document.getElementById('l8CtxRestartOpt').addEventListener('click', () => {
   setLevel(level);
 });
 
+l8DoneBtn.addEventListener('click', () => {
+  onLevelPassed(8);
+});
+
 /* LEVEL 4 — Counter 0/10000 */
 function setupLevel4(){
   btn.style.display = 'none';
@@ -530,6 +535,7 @@ function setupLevel8(){
   l8ClipboardLinked = false;
   l8BarFill.style.width = '0%';
   l8BarLabel.textContent = '0%';
+  l8DoneBtn.classList.add('hidden');
   localStorage.removeItem('wmcbg_clipboard');
   l8StartTime = performance.now();
   l8Raf = requestAnimationFrame(l8Tick);
@@ -570,15 +576,15 @@ function resumeL8WithProgress(pct){
   btn.style.display = 'none';
   l8Area.classList.remove('hidden');
   l8Progress = pct;
-  const barDisplay = Math.min(pct, 100);
   l8BarFill.style.transition = 'none';
-  l8BarFill.style.width = barDisplay + '%';
-  l8BarLabel.textContent = Math.floor(pct) + '%';
+  l8BarFill.style.width = '100%';
+  l8BarLabel.textContent = '100%';
   // Restore transition for future use
   requestAnimationFrame(() => {
     l8BarFill.style.transition = 'width 0.1s linear';
   });
-  onLevelPassed(8);
+  // Show the done button instead of immediately passing
+  l8DoneBtn.classList.remove('hidden');
 }
 
 /* Level 4 — Paste progress */

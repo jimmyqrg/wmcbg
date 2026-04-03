@@ -604,6 +604,17 @@ body.level5{
   text-shadow: 0 0 4px #fff, 0 0 4px #fff;
 }
 
+.l8-done-btn{
+  position: static;
+  left: auto;
+  top: auto;
+  transform: none;
+  margin-top: 8px;
+}
+.l8-done-btn:active{
+  transform: scale(0.97);
+}
+
 /* Level 4 pasted progress */
 .l4-pasted-progress{
   font-family: "Patrick Hand", cursive;
