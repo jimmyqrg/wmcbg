@@ -30,7 +30,11 @@
 <div class="screen game-screen hidden" id="gameScreen">
   <div class="wrap">
     <div id="stage" class="stage" tabindex="0">
-      <div class="ui" id="ui">Level 1</div>
+      <div class="ui-bar">
+        <div class="ui" id="ui">Level 1</div>
+        <button id="uiHomeBtn" class="ui-icon-btn" aria-label="Home"><img src="home.png" alt="Home"></button>
+        <button id="uiRestartBtn" class="ui-icon-btn" aria-label="Restart"><img src="restart.png" alt="Restart"></button>
+      </div>
 
       <button id="mainBtn" class="btn">CLICK ME</button>
 
@@ -80,6 +84,7 @@
 
   <div id="stageCtx" class="ctxmenu">
     <button id="restartOpt">Restart</button>
+    <button id="stageCtxLevelsOpt">Back to Levels</button>
   </div>
 
   <div id="l4Ctx" class="ctxmenu">

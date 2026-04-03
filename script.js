@@ -301,6 +301,12 @@ restartOpt.addEventListener('click', () => {
   setLevel(level);
 });
 
+document.getElementById('stageCtxLevelsOpt').addEventListener('click', () => {
+  stageCtx.style.display = 'none';
+  renderLevelSelect();
+  showScreen(levelSelectScreen);
+});
+
 freezeOpt.addEventListener('click', () => {
   frozen = true;
   ctx.style.display = 'none';
@@ -691,6 +697,15 @@ levelsBtn.addEventListener('click', () => {
   levelPassModal.classList.add('hidden');
   renderLevelSelect();
   showScreen(levelSelectScreen);
+});
+
+document.getElementById('uiHomeBtn').addEventListener('click', () => {
+  showScreen(homeScreen);
+  homeScreen.classList.add('loaded');
+});
+
+document.getElementById('uiRestartBtn').addEventListener('click', () => {
+  setLevel(level);
 });
 
 renderLevelSelect();
