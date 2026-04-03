@@ -86,7 +86,10 @@ body{
 
 .menu-btn{
   position: static;
+  left: auto;
+  top: auto;
   transform: none;
+  align-self: center;
   margin-top: 0;
   width: min(90%, 420px);
   padding: 16px 24px;
