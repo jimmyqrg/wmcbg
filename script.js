@@ -560,10 +560,18 @@ function l8Tick(now){
 
 function resumeL8WithProgress(pct){
   // Called when returning from L4 with >= 100%
+  // Show final bar state immediately (no animation from 0)
+  btn.style.display = 'none';
+  l8Area.classList.remove('hidden');
   l8Progress = pct;
   const barDisplay = Math.min(pct, 100);
+  l8BarFill.style.transition = 'none';
   l8BarFill.style.width = barDisplay + '%';
   l8BarLabel.textContent = Math.floor(pct) + '%';
+  // Restore transition for future use
+  requestAnimationFrame(() => {
+    l8BarFill.style.transition = 'width 0.1s linear';
+  });
   onLevelPassed(8);
 }
 
@@ -584,8 +592,8 @@ function pasteProgressIntoL4(){
     l4PasteInterval = null;
   }
 
-  l4PastedBtn = document.createElement('button');
-  l4PastedBtn.className = 'btn l4-pasted-progress';
+  l4PastedBtn = document.createElement('span');
+  l4PastedBtn.className = 'l4-pasted-progress';
   l4PastedBtn.textContent = clip + '%';
   l4Area.appendChild(l4PastedBtn);
 
@@ -597,7 +605,6 @@ function pasteProgressIntoL4(){
     if(val >= 100){
       clearInterval(l4PasteInterval);
       l4PasteInterval = null;
-      // Auto-return to level 8 with the progress
       returnToL8(val);
     }
   }, 200);
@@ -688,4 +695,8 @@ levelsBtn.addEventListener('click', () => {
 
 renderLevelSelect();
 showScreen(homeScreen);
+
+window.addEventListener('load', () => {
+  homeScreen.classList.add('loaded');
+});
 
