@@ -286,7 +286,7 @@ stage.addEventListener('contextmenu', (e) => {
     l4Ctx.style.display = 'block';
     l4Ctx.style.left = e.clientX + 'px';
     l4Ctx.style.top = e.clientY + 'px';
-  } else if(level === 8){
+  } else if(level === 8 && (e.target === l8BarWrap || l8BarWrap.contains(e.target))){
     l8Ctx.style.display = 'block';
     l8Ctx.style.left = e.clientX + 'px';
     l8Ctx.style.top = e.clientY + 'px';
