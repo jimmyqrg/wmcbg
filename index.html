@@ -4,31 +4,59 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>World's Most Confusing Button</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Protest+Riot&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<div class="wrap">
-  <button id="hiddenBtn" class="btn hidden-btn">REAL BUTTON??</button>
-
-  <div id="stage" class="stage" tabindex="0">
-
-    <div id="levelPassedMsg">LEVEL PASSED!</div>
-    <div class="ui" id="ui">Level 1</div>
-
-    <button id="mainBtn" class="btn">CLICK ME</button>
-
-    <div id="dropZone"></div>
-
-    <div id="ctx" class="ctxmenu">
-      <button id="freezeOpt">Freeze the button</button>
-    </div>
-
+<div class="screen home-screen" id="homeScreen">
+  <div class="home-card">
+    <h1 class="home-title">WORLD'S MOST CONFUSING BUTTON</h1>
+    <p class="home-subtitle">MADE BY JIMMYQRG</p>
+    <button id="startBtn" class="btn menu-btn">START</button>
   </div>
 </div>
 
-<div id="finalArea" class="final-area">
-  <div class="final-spacer"></div>
-  <button id="finalBtn" class="btn final-btn">I WAS HIDING DOWN HERE</button>
+<div class="screen level-select-screen hidden" id="levelSelectScreen">
+  <button id="backHomeBtn" class="back-btn" aria-label="Back to home">&larr; BACK</button>
+  <h2 class="levels-title">SELECT LEVEL</h2>
+  <div id="levelsGrid" class="levels-grid"></div>
+</div>
+
+<div class="screen game-screen hidden" id="gameScreen">
+  <div class="wrap">
+    <button id="hiddenBtn" class="btn hidden-btn">REAL BUTTON??</button>
+
+    <div id="stage" class="stage" tabindex="0">
+      <div class="ui" id="ui">Level 1</div>
+
+      <button id="mainBtn" class="btn">CLICK ME</button>
+      <div id="speechBox" class="speech-box" aria-live="polite">NOPE..</div>
+
+      <div id="dropZone"></div>
+    </div>
+  </div>
+
+  <div id="ctx" class="ctxmenu">
+    <button id="freezeOpt">Freeze the button</button>
+  </div>
+
+  <div id="finalArea" class="final-area">
+    <div class="final-spacer"></div>
+    <button id="finalBtn" class="btn final-btn">I WAS HIDING DOWN HERE</button>
+  </div>
+</div>
+
+<div id="levelPassModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="passTitle">
+  <div class="modal-card">
+    <h3 id="passTitle">LEVEL PASSED!</h3>
+    <div class="modal-actions">
+      <button id="nextBtn" class="modal-btn">NEXT</button>
+      <button id="playAgainBtn" class="modal-btn">PLAY AGAIN</button>
+      <button id="levelsBtn" class="modal-btn">LEVELS</button>
+    </div>
+  </div>
 </div>
 
 <script src="script.js"></script>

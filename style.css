@@ -1,139 +1,390 @@
-:root{ --w:800px; --h:600px; }
-
-html,body{
-  height:100%; margin:0;
-  background:white;
-  font-family: "Comic Sans MS", cursive;
+:root{
+  --w: 800px;
+  --h: 600px;
+  --paper: #fffef7;
+  --ink: #161616;
+  --accent: #f28500;
 }
 
-body{ cursor:grab; user-select:none; }
+*{
+  box-sizing: border-box;
+}
+
+html,
+body{
+  height: 100%;
+  margin: 0;
+  font-family: "Patrick Hand", cursive;
+  background:
+    radial-gradient(circle at 12% 18%, #fff0cc 0, #fff0cc 12%, transparent 42%),
+    radial-gradient(circle at 86% 78%, #d9f2ff 0, #d9f2ff 14%, transparent 48%),
+    linear-gradient(140deg, #fffdf6 0%, #ffffff 60%, #fbfbfb 100%);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+body{
+  user-select: none;
+}
+
+.hidden{
+  display: none !important;
+}
+
+.screen{
+  min-height: 100vh;
+  width: 100%;
+}
+
+.home-screen{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.home-card{
+  width: min(760px, 100%);
+  border: 2px solid #000;
+  background: var(--paper);
+  border-radius: 22px;
+  padding: clamp(20px, 6vw, 48px);
+  text-align: center;
+  box-shadow: 10px 10px 0 #000;
+}
+
+.home-title,
+.home-subtitle{
+  margin: 0;
+  font-family: "Protest Riot", sans-serif;
+  letter-spacing: 0.6px;
+}
+
+.home-title{
+  margin-inline: auto;
+  max-width: 14ch;
+  font-size: clamp(34px, 8vw, 58px);
+  line-height: 1.04;
+}
+
+.home-subtitle{
+  margin-top: 14px;
+  text-align: right;
+  font-size: clamp(20px, 3.2vw, 28px);
+}
+
+.menu-btn{
+  position: static;
+  transform: none;
+  margin-top: 24px;
+}
+
+.level-select-screen{
+  padding: clamp(18px, 4vw, 36px);
+}
+
+.back-btn{
+  border: 2px solid #000;
+  border-radius: 12px;
+  background: #fff;
+  color: #000;
+  padding: 8px 14px;
+  font-size: 22px;
+  font-family: "Patrick Hand", cursive;
+  cursor: pointer;
+}
+
+.levels-title{
+  margin: 14px 0 20px;
+  text-align: center;
+  font-size: clamp(34px, 6vw, 48px);
+}
+
+.levels-grid{
+  width: min(720px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+  gap: 14px;
+}
+
+.level-tile{
+  aspect-ratio: 1 / 1;
+  border: 2px solid #000;
+  border-radius: 10px;
+  background: #fff;
+  font-size: clamp(30px, 5vw, 38px);
+  font-family: "Patrick Hand", cursive;
+  cursor: pointer;
+  transition: transform 0.14s ease;
+}
+
+.level-tile:hover{
+  transform: translateY(-3px);
+}
+
+.level-tile.locked{
+  opacity: 0.45;
+}
+
+.game-screen{
+  padding: 14px;
+}
 
 .wrap{
-  position:relative;
-  width:100%; height:100%;
-  display:flex; align-items:center; justify-content:center;
-  overflow:visible;
+  position: relative;
+  width: 100%;
+  min-height: 74vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .stage{
-  width:var(--w); height:var(--h);
+  width: min(var(--w), calc(100vw - 28px));
+  height: min(var(--h), 72vh);
   background: repeating-linear-gradient(
-    white,
-    white 28px,
-    #d8e2ff 28px,
-    #d8e2ff 29px
+    var(--paper),
+    var(--paper) 31px,
+    #d6e5ff 31px,
+    #d6e5ff 32px
   );
-  position:absolute;
-  left:50%; top:50%;
-  transform:translate(-50%,-50%);
-  overflow:hidden;
-  border:1px solid #aaa;
-  box-shadow:0 6px 24px rgba(0,0,0,0.15);
-  transition: transform .6s ease; /* ★ page-turn animation */
-  z-index:2;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  border: 2px solid #000;
+  border-radius: 14px;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.14);
+  z-index: 2;
+  transform-style: preserve-3d;
 }
 
-.stage.turn{
-  transform: rotateY(90deg);
+.stage.flip-out{
+  animation: flipOut 0.48s ease forwards;
+}
+
+.stage.flip-in{
+  animation: flipIn 0.48s ease forwards;
+}
+
+@keyframes flipOut{
+  0%{ transform: translate(-50%, -50%) rotateY(0deg); opacity: 1; }
+  100%{ transform: translate(-50%, -50%) rotateY(90deg); opacity: 0.06; }
+}
+
+@keyframes flipIn{
+  0%{ transform: translate(-50%, -50%) rotateY(-90deg); opacity: 0.06; }
+  100%{ transform: translate(-50%, -50%) rotateY(0deg); opacity: 1; }
 }
 
 .btn{
-  position:absolute;
-  left:50%; top:50%;
-  transform:translate(-50%,-50%);
-  background: linear-gradient(#ff9a3c,#f36a00);
-  color:white; font-weight:bold;
-  border:none; padding:14px 26px;
-  border-radius:10px;
-  cursor:grab;
-  user-select:none;
-  box-shadow:0 6px 14px rgba(0,0,0,0.15);
-  transition: transform .12s, left .3s, top .3s;
-  font-family:"Comic Sans MS", cursive !important;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(#ffac4e, #ea7000);
+  color: #fff;
+  font-weight: 700;
+  border: 2px solid #000;
+  padding: 12px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.85);
+  transition: transform 0.12s, left 0.3s, top 0.3s;
+  font-family: "Patrick Hand", cursive;
+  font-size: 24px;
 }
-.btn:active{ transform:translate(-50%,-50%) scale(.97); }
+
+.btn:active{
+  transform: translate(-50%, -50%) scale(0.97);
+}
+
+.btn.shake{
+  animation: headShake 0.52s ease;
+}
+
+@keyframes headShake{
+  0%,100%{ transform: translate(-50%, -50%) rotate(0deg); }
+  20%{ transform: translate(-50%, -50%) rotate(-12deg); }
+  40%{ transform: translate(-50%, -50%) rotate(11deg); }
+  60%{ transform: translate(-50%, -50%) rotate(-8deg); }
+  80%{ transform: translate(-50%, -50%) rotate(6deg); }
+}
+
+.speech-box{
+  position: absolute;
+  left: calc(50% + 110px);
+  top: calc(50% - 78px);
+  transform: translate(-50%, -50%) scale(0.85);
+  background: #fff;
+  border: 2px solid #000;
+  border-radius: 14px;
+  padding: 8px 14px;
+  font-size: 26px;
+  box-shadow: 4px 4px 0 #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 60;
+}
+
+.speech-box::after{
+  content: "";
+  position: absolute;
+  left: 16px;
+  bottom: -13px;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-left: 2px solid #000;
+  border-bottom: 2px solid #000;
+  transform: rotate(-35deg);
+}
+
+.speech-box.show{
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
 
 .hidden-btn{
-  z-index:1;
-  position:absolute;
-  left:50%; top:50%;
-  transform:translate(-50%,-50%);
-  opacity:0.85;
+  z-index: 1;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.9;
 }
 
 .final-area{
-  display:none;
-  width:100%;
+  display: none;
+  width: 100%;
 }
 
 .final-area .final-spacer{
-  height:1200px;
+  height: 980px;
 }
 
 .final-btn{
-  position:relative;
-  left:50%;
-  top:auto;
-  transform:translateX(-50%);
-  margin-bottom:120px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.2);
+  position: relative;
+  left: 50%;
+  top: auto;
+  transform: translateX(-50%);
+  margin-bottom: 120px;
 }
 
 .level5{
-  min-height:1800px;
+  min-height: 1600px;
 }
 
 .ui{
-  position:absolute; left:12px; top:12px; z-index:50;
-  font-size:16px; color:#111;
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  z-index: 50;
+  font-size: 24px;
+  color: #111;
 }
 
 .ctxmenu{
-  position:fixed; z-index:300;
-  background:white; border:1px solid #ccc;
-  padding:8px; border-radius:6px;
-  display:none;
-  font-family:"Comic Sans MS";
+  position: fixed;
+  z-index: 300;
+  background: #fff;
+  border: 2px solid #000;
+  padding: 8px;
+  border-radius: 8px;
+  display: none;
 }
+
 .ctxmenu button{
-  border:none; background:transparent;
-  padding:6px 8px; cursor:pointer; font-weight:bold;
+  border: 2px solid transparent;
+  background: transparent;
+  padding: 6px 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-family: "Patrick Hand", cursive;
+  font-size: 20px;
 }
 
-#levelPassedMsg{
-  position:absolute;
-  left:50%; top:30%;
-  transform:translate(-50%, -50%);
-  font-size:30px;
-  font-weight:bold;
-  color:#4CAF50;
-  background:white;
-  padding:12px 20px;
-  border-radius:10px;
-  border:3px dashed #4CAF50;
-  text-shadow:2px 2px 0px #d0ffd0;
-  display:none;
-  z-index:600;
-  opacity:0;
-  transition:opacity .3s;
-  pointer-events:none;
-}
-
-/* ★ LEVEL 4 TARGET ZONE */
 #dropZone{
-  position:absolute;
-  width:180px; height:120px;
-  border:4px dashed #4CAF50;
-  border-radius:14px;
-  left:50%; top:70%;
-  transform:translate(-50%,-50%);
-  display:none;
+  position: absolute;
+  width: 180px;
+  height: 120px;
+  border: 4px dashed #3ea34f;
+  border-radius: 14px;
+  left: 50%;
+  top: 70%;
+  transform: translate(-50%, -50%);
+  display: none;
   animation: pulse 1.4s infinite ease-in-out;
-  opacity:0.6;
+  opacity: 0.6;
 }
+
 @keyframes pulse{
-  0% { transform:translate(-50%,-50%) scale(1); }
-  50% { transform:translate(-50%,-50%) scale(1.07); }
-  100% { transform:translate(-50%,-50%) scale(1); }
+  0%{ transform: translate(-50%, -50%) scale(1); }
+  50%{ transform: translate(-50%, -50%) scale(1.07); }
+  100%{ transform: translate(-50%, -50%) scale(1); }
+}
+
+.modal{
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 16px;
+}
+
+.modal-card{
+  width: min(520px, 100%);
+  background: #fff;
+  border: 2px solid #000;
+  border-radius: 16px;
+  box-shadow: 8px 8px 0 #000;
+  padding: 24px;
+  text-align: center;
+}
+
+.modal-card h3{
+  margin: 0;
+  font-size: clamp(32px, 6vw, 44px);
+}
+
+.modal-actions{
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.modal-btn{
+  border: 2px solid #000;
+  background: #fff;
+  color: #000;
+  border-radius: 10px;
+  min-width: 132px;
+  padding: 9px 14px;
+  font-family: "Patrick Hand", cursive;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+@media (max-width: 700px){
+  .stage{
+    height: 70vh;
+  }
+
+  .btn{
+    font-size: 20px;
+  }
+
+  .speech-box{
+    left: calc(50% + 90px);
+    top: calc(50% - 70px);
+    font-size: 22px;
+  }
 }
 
