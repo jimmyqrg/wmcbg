@@ -272,21 +272,31 @@ function setupLevel4(){
   btn.style.display = 'none';
   l4Area.classList.remove('hidden');
   l4Count = 0;
-  l4UiCount = 0;
   l4CounterBtn.textContent = '0/10000';
 
-  l4CounterBtn.onclick = () => {
+  l4CounterBtn.onclick = (e) => {
     l4Count += 1;
+    spawnPlusOne(e);
     updateL4Display();
   };
 
-  // Clicking "Level 4" label is the easy-way shortcut
+  // Clicking "Level 4" label directly passes
   ui.classList.add('clickable');
   ui.onclick = () => {
-    l4Count += 1000;
-    l4UiCount += 1;
-    updateL4Display();
+    ui.onclick = null;
+    ui.classList.remove('clickable');
+    onLevelPassed(4);
   };
+}
+
+function spawnPlusOne(e){
+  const el = document.createElement('span');
+  el.className = 'float-plus-one';
+  el.textContent = '+1';
+  el.style.left = e.clientX + 'px';
+  el.style.top = e.clientY + 'px';
+  document.body.appendChild(el);
+  el.addEventListener('animationend', () => el.remove());
 }
 
 function updateL4Display(){

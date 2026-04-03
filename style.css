@@ -76,7 +76,7 @@ body{
 .menu-btn{
   position: static;
   transform: none;
-  margin-top: 48px;
+  margin-top: 80px;
 }
 
 .level-select-screen{
@@ -431,7 +431,6 @@ body{
 
 .ui.clickable{
   cursor: pointer;
-  text-decoration: underline;
 }
 
 .ui{
