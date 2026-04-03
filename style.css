@@ -23,6 +23,7 @@ body{
 
 body{
   user-select: none;
+  cursor: pointer;
 }
 
 .hidden{
