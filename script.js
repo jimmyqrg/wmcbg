@@ -572,6 +572,8 @@ function l8Tick(now){
 
 function resumeL8WithProgress(pct){
   // Called when returning from L4 with >= 100%
+  // Cancel any running animation first
+  if(l8Raf){ cancelAnimationFrame(l8Raf); l8Raf = null; }
   // Show final bar state immediately (no animation from 0)
   btn.style.display = 'none';
   l8Area.classList.remove('hidden');
