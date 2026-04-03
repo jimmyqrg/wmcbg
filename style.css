@@ -84,7 +84,7 @@ body{
   opacity: 0;
 }
 
-.menu-btn{
+.btn.menu-btn{
   position: static;
   left: auto;
   top: auto;
@@ -107,7 +107,7 @@ body{
   animation-delay: 0.5s;
 }
 
-.home-screen.loaded .menu-btn{
+.home-screen.loaded .btn.menu-btn{
   animation: slideUp 0.6s ease forwards;
   animation-delay: 0.9s;
 }
@@ -278,7 +278,7 @@ body.level5{
   transform: translate(-50%, -50%) scale(0.97);
 }
 
-.menu-btn:active,
+.btn.menu-btn:active,
 .l4-counter-btn:active,
 .l7-btn-normal:active,
 .l7-contribute-btn:active,
