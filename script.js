@@ -141,7 +141,7 @@ function hideAllCtx(){
   l8Ctx.style.display = 'none';
 }
 
-function restartLevelWithFade(targetLevel = level){
+function runSceneTransition(action, midpoint = 220){
   hideAllCtx();
   restartOverlay.classList.remove('hidden', 'restart-overlay-animate');
   void restartOverlay.offsetWidth;
@@ -152,8 +152,37 @@ function restartLevelWithFade(targetLevel = level){
   }
 
   restartOverlayTimer = window.setTimeout(() => {
+    action();
+  }, midpoint);
+}
+
+function restartLevelWithFade(targetLevel = level){
+  runSceneTransition(() => {
     setLevel(targetLevel);
-  }, 220);
+  });
+}
+
+function showHomeScreen(useTransition = true){
+  if(useTransition){
+    runSceneTransition(() => {
+      showHomeScreen(false);
+    });
+    return;
+  }
+
+  showScreen(homeScreen);
+}
+
+function showLevelSelectScreen(useTransition = true){
+  if(useTransition){
+    runSceneTransition(() => {
+      showLevelSelectScreen(false);
+    });
+    return;
+  }
+
+  renderLevelSelect();
+  showScreen(levelSelectScreen);
 }
 
 function flipToLevel(nextLevel){
@@ -186,7 +215,14 @@ function onLevelPassed(completedLevel){
   levelPassModal.classList.remove('hidden');
 }
 
-function startLevel(n, animate){
+function startLevel(n, animate, useTransition = true){
+  if(useTransition){
+    runSceneTransition(() => {
+      startLevel(n, animate, false);
+    });
+    return;
+  }
+
   showScreen(gameScreen);
   levelPassModal.classList.add('hidden');
   l9FakePassModal.classList.add('hidden');
@@ -336,9 +372,7 @@ restartOpt.addEventListener('click', () => {
 });
 
 document.getElementById('stageCtxLevelsOpt').addEventListener('click', () => {
-  stageCtx.style.display = 'none';
-  renderLevelSelect();
-  showScreen(levelSelectScreen);
+  showLevelSelectScreen();
 });
 
 freezeOpt.addEventListener('click', () => {
@@ -676,15 +710,16 @@ function returnToL8(pct){
   if(l4PasteInterval){ clearInterval(l4PasteInterval); l4PasteInterval = null; }
   localStorage.removeItem('wmcbg_clipboard');
 
-  // Switch to level 8 and complete it
-  showScreen(gameScreen);
-  levelPassModal.classList.add('hidden');
-  flipToLevel(8);
+  runSceneTransition(() => {
+    showScreen(gameScreen);
+    levelPassModal.classList.add('hidden');
+    flipToLevel(8);
 
-  // After flip animation, update bar and pass level
-  window.setTimeout(() => {
-    resumeL8WithProgress(pct);
-  }, 1000);
+    // After flip animation, update bar and pass level
+    window.setTimeout(() => {
+      resumeL8WithProgress(pct);
+    }, 1000);
+  });
 }
 
 function addL9Timer(callback, delay){
@@ -841,12 +876,11 @@ document.addEventListener('click', (e) => {
 });
 
 startBtn.addEventListener('click', () => {
-  renderLevelSelect();
-  showScreen(levelSelectScreen);
+  showLevelSelectScreen();
 });
 
 backHomeBtn.addEventListener('click', () => {
-  showScreen(homeScreen);
+  showHomeScreen();
 });
 
 nextBtn.addEventListener('click', () => {
@@ -856,7 +890,7 @@ nextBtn.addEventListener('click', () => {
   levelPassModal.classList.add('hidden');
 
   if(currentCompleted >= TOTAL_LEVELS){
-    showScreen(levelSelectScreen);
+    showLevelSelectScreen();
     return;
   }
 
@@ -871,13 +905,11 @@ playAgainBtn.addEventListener('click', () => {
 
 levelsBtn.addEventListener('click', () => {
   levelPassModal.classList.add('hidden');
-  renderLevelSelect();
-  showScreen(levelSelectScreen);
+  showLevelSelectScreen();
 });
 
 document.getElementById('uiHomeBtn').addEventListener('click', () => {
-  renderLevelSelect();
-  showScreen(levelSelectScreen);
+  showLevelSelectScreen();
 });
 
 document.getElementById('uiRestartBtn').addEventListener('click', () => {
