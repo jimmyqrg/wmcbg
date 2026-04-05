@@ -141,7 +141,7 @@ function hideAllCtx(){
   l8Ctx.style.display = 'none';
 }
 
-function runSceneTransition(action, midpoint = 220){
+function runSceneTransition(action, midpoint = 280){
   hideAllCtx();
   restartOverlay.classList.remove('hidden', 'restart-overlay-animate');
   void restartOverlay.offsetWidth;
