@@ -616,6 +616,92 @@ body.level5{
   transform: scale(0.97);
 }
 
+/* Level 9 */
+.l9-area{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 24px;
+}
+
+.l9-text{
+  margin: 0;
+  font-size: clamp(32px, 5.8vw, 52px);
+  font-family: "Protest Riot", sans-serif;
+  letter-spacing: 0.8px;
+  text-align: center;
+  max-width: 11ch;
+  line-height: 1.05;
+  transform: rotate(-2deg);
+}
+
+.l9-btn{
+  position: static;
+  transform: none;
+  min-width: 220px;
+  font-size: 28px;
+}
+
+.l9-btn:active{
+  transform: scale(0.97);
+}
+
+.l9-browser-alert{
+  align-items: flex-start;
+  padding-top: clamp(36px, 8vh, 72px);
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.l9-browser-alert-card{
+  width: min(460px, 100%);
+  border-radius: 10px;
+  box-shadow: 6px 6px 0 #000;
+  text-align: left;
+}
+
+.l9-browser-alert-card h3{
+  font-size: clamp(26px, 4vw, 34px);
+  opacity: 1;
+  animation: none;
+}
+
+.l9-browser-alert-text{
+  margin: 14px 0 0;
+  font-size: 24px;
+  line-height: 1.15;
+}
+
+.l9-browser-alert-actions{
+  justify-content: flex-end;
+}
+
+.l9-browser-btn{
+  opacity: 1;
+  animation: none;
+  min-width: 140px;
+}
+
+.l9-browser-btn-primary{
+  background: #ececec;
+}
+
+.l9-fake-pass-card{
+  width: min(420px, 100%);
+}
+
+.l9-fake-pass-actions{
+  justify-content: center;
+}
+
+.l9-fake-pass-actions .modal-btn{
+  opacity: 1;
+  animation: none;
+}
+
 /* Level 4 pasted progress */
 .l4-pasted-progress{
   font-family: "Patrick Hand", cursive;
@@ -797,6 +883,16 @@ body.level5{
 .modal-btn:nth-child(1){ animation-delay: 0.25s; }
 .modal-btn:nth-child(2){ animation-delay: 0.35s; }
 .modal-btn:nth-child(3){ animation-delay: 0.45s; }
+
+@media (max-width: 640px){
+  .l9-browser-alert-actions{
+    justify-content: center;
+  }
+
+  .l9-browser-btn{
+    min-width: 120px;
+  }
+}
 
 @media (max-width: 700px){
   .stage{

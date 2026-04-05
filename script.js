@@ -1,4 +1,4 @@
-const TOTAL_LEVELS = 8;
+const TOTAL_LEVELS = 9;
 
 const homeScreen = document.getElementById('homeScreen');
 const levelSelectScreen = document.getElementById('levelSelectScreen');
@@ -25,6 +25,11 @@ const levelPassModal = document.getElementById('levelPassModal');
 const nextBtn = document.getElementById('nextBtn');
 const playAgainBtn = document.getElementById('playAgainBtn');
 const levelsBtn = document.getElementById('levelsBtn');
+const l9BrowserAlert = document.getElementById('l9BrowserAlert');
+const l9KeepWaitingBtn = document.getElementById('l9KeepWaitingBtn');
+const l9ReloadBtn = document.getElementById('l9ReloadBtn');
+const l9FakePassModal = document.getElementById('l9FakePassModal');
+const l9FakeNextBtn = document.getElementById('l9FakeNextBtn');
 
 // Level 4 elements
 const l4Area = document.getElementById('l4Area');
@@ -52,6 +57,12 @@ const l8Ctx = document.getElementById('l8Ctx');
 const l8CopyOpt = document.getElementById('l8CopyOpt');
 const l8DoneBtn = document.getElementById('l8DoneBtn');
 
+// Level 9 elements
+const l9Area = document.getElementById('l9Area');
+const l9Text = document.getElementById('l9Text');
+const l9ClickMeBtn = document.getElementById('l9ClickMeBtn');
+const l9RealBtn = document.getElementById('l9RealBtn');
+
 let level = 1;
 let unlockedLevel = Number(localStorage.getItem('wmcbg_unlocked')) || 1;
 let frozen = false;
@@ -73,6 +84,11 @@ let l8Progress = 0;
 let l8Raf = null;
 let l8StartTime = 0;
 let l8ClipboardLinked = false; // true when L4 has a live pasted progress
+
+// Level 9 state
+let l9StepTimers = [];
+let l9GuardActive = false;
+let l9Failing = false;
 
 function showScreen(screen){
   homeScreen.classList.add('hidden');
@@ -159,6 +175,8 @@ function onLevelPassed(completedLevel){
 function startLevel(n, animate){
   showScreen(gameScreen);
   levelPassModal.classList.add('hidden');
+  l9FakePassModal.classList.add('hidden');
+  l9BrowserAlert.classList.add('hidden');
 
   if(animate){
     flipToLevel(n);
@@ -180,6 +198,8 @@ function hideAllLevelAreas(){
   l7FormedWord.innerHTML = '';
   l8Area.classList.add('hidden');
   if(l8Raf){ cancelAnimationFrame(l8Raf); l8Raf = null; }
+  l9Area.classList.add('hidden');
+  cleanupLevel9();
   // reset l7 char highlights
   l7Speech.querySelectorAll('.l7-char').forEach(ch => ch.classList.remove('highlighted'));
 }
@@ -229,6 +249,7 @@ function setLevel(n){
   if(n === 6) setupLevel6();
   if(n === 7) setupLevel7();
   if(n === 8) setupLevel8();
+  if(n === 9) setupLevel9();
 }
 
 btn.addEventListener('click', () => {
@@ -656,6 +677,130 @@ function returnToL8(pct){
     resumeL8WithProgress(pct);
   }, 1000);
 }
+
+function addL9Timer(callback, delay){
+  const timer = window.setTimeout(callback, delay);
+  l9StepTimers.push(timer);
+  return timer;
+}
+
+function cleanupLevel9(){
+  l9StepTimers.forEach(timer => window.clearTimeout(timer));
+  l9StepTimers = [];
+  l9GuardActive = false;
+  l9Failing = false;
+  l9BrowserAlert.classList.add('hidden');
+  l9FakePassModal.classList.add('hidden');
+  l9Text.textContent = "DON'T CLICK ANYTHING";
+  l9ClickMeBtn.classList.add('hidden');
+  l9RealBtn.classList.add('hidden');
+}
+
+function failLevel9(){
+  if(level !== 9 || l9Failing){
+    return;
+  }
+
+  l9Failing = true;
+  l9GuardActive = false;
+  l9BrowserAlert.classList.add('hidden');
+  l9FakePassModal.classList.add('hidden');
+  showToast('FAILED');
+
+  addL9Timer(() => {
+    if(level === 9){
+      setLevel(9);
+    }
+  }, 700);
+}
+
+function l9InputGuard(event){
+  if(level !== 9 || !l9GuardActive){
+    return;
+  }
+
+  if(event.type === 'keydown'){
+    if(event.key !== ' ' && event.key !== 'Enter'){
+      return;
+    }
+  }
+
+  event.preventDefault();
+  event.stopPropagation();
+  if(typeof event.stopImmediatePropagation === 'function'){
+    event.stopImmediatePropagation();
+  }
+  failLevel9();
+}
+
+function showL9BrowserAlert(){
+  if(level !== 9){
+    return;
+  }
+
+  l9BrowserAlert.classList.remove('hidden');
+
+  addL9Timer(() => {
+    if(level !== 9){
+      return;
+    }
+
+    l9BrowserAlert.classList.add('hidden');
+    l9FakePassModal.classList.remove('hidden');
+
+    addL9Timer(() => {
+      if(level !== 9){
+        return;
+      }
+
+      l9FakePassModal.classList.add('hidden');
+      l9GuardActive = false;
+      onLevelPassed(9);
+    }, 3000);
+  }, 5000);
+}
+
+function setupLevel9(){
+  btn.style.display = 'none';
+  l9Area.classList.remove('hidden');
+  l9Text.textContent = "DON'T CLICK ANYTHING";
+  l9ClickMeBtn.classList.add('hidden');
+  l9RealBtn.classList.add('hidden');
+  l9BrowserAlert.classList.add('hidden');
+  l9FakePassModal.classList.add('hidden');
+  l9GuardActive = true;
+  l9Failing = false;
+
+  addL9Timer(() => {
+    if(level !== 9){
+      return;
+    }
+    l9ClickMeBtn.classList.remove('hidden');
+  }, 0);
+
+  addL9Timer(() => {
+    if(level !== 9){
+      return;
+    }
+    l9ClickMeBtn.classList.add('hidden');
+    l9Text.textContent = 'YOU CAN CLICK IT NOW.';
+    l9RealBtn.classList.remove('hidden');
+  }, 5000);
+
+  addL9Timer(() => {
+    showL9BrowserAlert();
+  }, 8000);
+}
+
+document.addEventListener('pointerdown', l9InputGuard, true);
+document.addEventListener('click', l9InputGuard, true);
+document.addEventListener('keydown', l9InputGuard, true);
+
+l9ClickMeBtn.addEventListener('click', failLevel9);
+l9RealBtn.addEventListener('click', failLevel9);
+l9KeepWaitingBtn.addEventListener('click', failLevel9);
+l9ReloadBtn.addEventListener('click', failLevel9);
+l9FakeNextBtn.addEventListener('click', failLevel9);
 
 document.addEventListener('click', (e) => {
   if(!ctx.contains(e.target) && e.target !== btn){
