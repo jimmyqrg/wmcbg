@@ -774,17 +774,7 @@ function showL9BrowserAlert(){
     return;
   }
 
-  l9FakePassModal.classList.remove('hidden');
-
-  addL9Timer(() => {
-    if(level !== 9){
-      return;
-    }
-
-    l9FakePassModal.classList.add('hidden');
-    l9GuardActive = false;
-    onLevelPassed(9);
-  }, 3000);
+  failLevel9();
 }
 
 function setupLevel9(){
