@@ -684,6 +684,10 @@ body.level5{
   pointer-events: none;
 }
 
+.l9-text.l9-fade-hidden{
+  transform: rotate(-2deg) translateY(10px);
+}
+
 .l9-fake-pass-card{
   width: min(420px, 100%);
 }
