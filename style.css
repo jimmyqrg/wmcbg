@@ -351,6 +351,10 @@ body.level5{
   margin-bottom: 120px;
 }
 
+.final-btn:active{
+  transform: translateX(-50%) scale(0.97);
+}
+
 /* Level 4 — Counter */
 .l4-area{
   position: absolute;
