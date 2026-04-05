@@ -7,6 +7,7 @@ const gameScreen = document.getElementById('gameScreen');
 const startBtn = document.getElementById('startBtn');
 const backHomeBtn = document.getElementById('backHomeBtn');
 const levelsGrid = document.getElementById('levelsGrid');
+const restartOverlay = document.getElementById('restartOverlay');
 
 const stage = document.getElementById('stage');
 const btn = document.getElementById('mainBtn');
@@ -25,9 +26,6 @@ const levelPassModal = document.getElementById('levelPassModal');
 const nextBtn = document.getElementById('nextBtn');
 const playAgainBtn = document.getElementById('playAgainBtn');
 const levelsBtn = document.getElementById('levelsBtn');
-const l9BrowserAlert = document.getElementById('l9BrowserAlert');
-const l9KeepWaitingBtn = document.getElementById('l9KeepWaitingBtn');
-const l9ReloadBtn = document.getElementById('l9ReloadBtn');
 const l9FakePassModal = document.getElementById('l9FakePassModal');
 const l9FakeNextBtn = document.getElementById('l9FakeNextBtn');
 
@@ -89,6 +87,7 @@ let l8ClipboardLinked = false; // true when L4 has a live pasted progress
 let l9StepTimers = [];
 let l9GuardActive = false;
 let l9Failing = false;
+let restartOverlayTimer = null;
 
 function showScreen(screen){
   homeScreen.classList.add('hidden');
@@ -142,6 +141,21 @@ function hideAllCtx(){
   l8Ctx.style.display = 'none';
 }
 
+function restartLevelWithFade(targetLevel = level){
+  hideAllCtx();
+  restartOverlay.classList.remove('hidden', 'restart-overlay-animate');
+  void restartOverlay.offsetWidth;
+  restartOverlay.classList.add('restart-overlay-animate');
+
+  if(restartOverlayTimer){
+    window.clearTimeout(restartOverlayTimer);
+  }
+
+  restartOverlayTimer = window.setTimeout(() => {
+    setLevel(targetLevel);
+  }, 220);
+}
+
 function flipToLevel(nextLevel){
   stage.classList.remove('flip-in');
   stage.classList.add('flip-out');
@@ -176,7 +190,6 @@ function startLevel(n, animate){
   showScreen(gameScreen);
   levelPassModal.classList.add('hidden');
   l9FakePassModal.classList.add('hidden');
-  l9BrowserAlert.classList.add('hidden');
 
   if(animate){
     flipToLevel(n);
@@ -319,8 +332,7 @@ stage.addEventListener('contextmenu', (e) => {
 });
 
 restartOpt.addEventListener('click', () => {
-  stageCtx.style.display = 'none';
-  setLevel(level);
+  restartLevelWithFade();
 });
 
 document.getElementById('stageCtxLevelsOpt').addEventListener('click', () => {
@@ -335,8 +347,7 @@ freezeOpt.addEventListener('click', () => {
 });
 
 document.getElementById('ctxRestartOpt').addEventListener('click', () => {
-  ctx.style.display = 'none';
-  setLevel(level);
+  restartLevelWithFade();
 });
 
 l4PasteOpt.addEventListener('click', () => {
@@ -350,8 +361,7 @@ l4PasteOpt.addEventListener('click', () => {
 });
 
 document.getElementById('l4CtxRestartOpt').addEventListener('click', () => {
-  l4Ctx.style.display = 'none';
-  setLevel(level);
+  restartLevelWithFade();
 });
 
 // Level 8 context menu handlers
@@ -363,8 +373,7 @@ l8CopyOpt.addEventListener('click', () => {
 });
 
 document.getElementById('l8CtxRestartOpt').addEventListener('click', () => {
-  l8Ctx.style.display = 'none';
-  setLevel(level);
+  restartLevelWithFade();
 });
 
 l8DoneBtn.addEventListener('click', () => {
@@ -684,16 +693,38 @@ function addL9Timer(callback, delay){
   return timer;
 }
 
+function showL9Element(element){
+  element.classList.remove('hidden');
+  requestAnimationFrame(() => {
+    element.classList.remove('l9-fade-hidden');
+  });
+}
+
+function hideL9Element(element){
+  element.classList.add('l9-fade-hidden');
+}
+
+function swapL9Text(nextText){
+  hideL9Element(l9Text);
+  addL9Timer(() => {
+    if(level !== 9){
+      return;
+    }
+    l9Text.textContent = nextText;
+    showL9Element(l9Text);
+  }, 320);
+}
+
 function cleanupLevel9(){
   l9StepTimers.forEach(timer => window.clearTimeout(timer));
   l9StepTimers = [];
   l9GuardActive = false;
   l9Failing = false;
-  l9BrowserAlert.classList.add('hidden');
   l9FakePassModal.classList.add('hidden');
   l9Text.textContent = "DON'T CLICK ANYTHING";
-  l9ClickMeBtn.classList.add('hidden');
-  l9RealBtn.classList.add('hidden');
+  l9Text.classList.add('l9-fade-hidden');
+  l9ClickMeBtn.classList.add('hidden', 'l9-fade-hidden');
+  l9RealBtn.classList.add('hidden', 'l9-fade-hidden');
 }
 
 function failLevel9(){
@@ -703,13 +734,12 @@ function failLevel9(){
 
   l9Failing = true;
   l9GuardActive = false;
-  l9BrowserAlert.classList.add('hidden');
   l9FakePassModal.classList.add('hidden');
   showToast('FAILED');
 
   addL9Timer(() => {
     if(level === 9){
-      setLevel(9);
+      restartLevelWithFade(9);
     }
   }, 700);
 }
@@ -738,36 +768,34 @@ function showL9BrowserAlert(){
     return;
   }
 
-  l9BrowserAlert.classList.remove('hidden');
+  window.alert('Page not responding');
+
+  if(level !== 9 || l9Failing){
+    return;
+  }
+
+  l9FakePassModal.classList.remove('hidden');
 
   addL9Timer(() => {
     if(level !== 9){
       return;
     }
 
-    l9BrowserAlert.classList.add('hidden');
-    l9FakePassModal.classList.remove('hidden');
-
-    addL9Timer(() => {
-      if(level !== 9){
-        return;
-      }
-
-      l9FakePassModal.classList.add('hidden');
-      l9GuardActive = false;
-      onLevelPassed(9);
-    }, 3000);
-  }, 5000);
+    l9FakePassModal.classList.add('hidden');
+    l9GuardActive = false;
+    onLevelPassed(9);
+  }, 3000);
 }
 
 function setupLevel9(){
   btn.style.display = 'none';
   l9Area.classList.remove('hidden');
   l9Text.textContent = "DON'T CLICK ANYTHING";
-  l9ClickMeBtn.classList.add('hidden');
-  l9RealBtn.classList.add('hidden');
-  l9BrowserAlert.classList.add('hidden');
   l9FakePassModal.classList.add('hidden');
+  l9Text.classList.add('l9-fade-hidden');
+  l9ClickMeBtn.classList.add('l9-fade-hidden');
+  l9RealBtn.classList.add('hidden', 'l9-fade-hidden');
+  l9ClickMeBtn.classList.remove('hidden');
   l9GuardActive = true;
   l9Failing = false;
 
@@ -775,16 +803,23 @@ function setupLevel9(){
     if(level !== 9){
       return;
     }
-    l9ClickMeBtn.classList.remove('hidden');
+    showL9Element(l9Text);
+    showL9Element(l9ClickMeBtn);
   }, 0);
 
   addL9Timer(() => {
     if(level !== 9){
       return;
     }
-    l9ClickMeBtn.classList.add('hidden');
-    l9Text.textContent = 'YOU CAN CLICK IT NOW.';
+    hideL9Element(l9ClickMeBtn);
+    swapL9Text('YOU CAN CLICK IT NOW.');
     l9RealBtn.classList.remove('hidden');
+    addL9Timer(() => {
+      if(level !== 9){
+        return;
+      }
+      showL9Element(l9RealBtn);
+    }, 320);
   }, 5000);
 
   addL9Timer(() => {
@@ -798,8 +833,6 @@ document.addEventListener('keydown', l9InputGuard, true);
 
 l9ClickMeBtn.addEventListener('click', failLevel9);
 l9RealBtn.addEventListener('click', failLevel9);
-l9KeepWaitingBtn.addEventListener('click', failLevel9);
-l9ReloadBtn.addEventListener('click', failLevel9);
 l9FakeNextBtn.addEventListener('click', failLevel9);
 
 document.addEventListener('click', (e) => {
@@ -843,7 +876,7 @@ nextBtn.addEventListener('click', () => {
 playAgainBtn.addEventListener('click', () => {
   if(pendingCompletedLevel === null) return;
   levelPassModal.classList.add('hidden');
-  startLevel(pendingCompletedLevel, false);
+  restartLevelWithFade(pendingCompletedLevel);
 });
 
 levelsBtn.addEventListener('click', () => {
@@ -858,7 +891,7 @@ document.getElementById('uiHomeBtn').addEventListener('click', () => {
 });
 
 document.getElementById('uiRestartBtn').addEventListener('click', () => {
-  setLevel(level);
+  restartLevelWithFade();
 });
 
 renderLevelSelect();

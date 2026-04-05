@@ -199,10 +199,30 @@ body{
 
 .game-screen{
   padding: 14px;
+  position: relative;
 }
 
 .game-screen.scrollable{
   overflow-y: auto;
+}
+
+.restart-overlay{
+  position: fixed;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1200;
+}
+
+.restart-overlay.restart-overlay-animate{
+  animation: restartFade 0.6s ease;
+}
+
+@keyframes restartFade{
+  0%{ opacity: 0; }
+  35%{ opacity: 1; }
+  100%{ opacity: 0; }
 }
 
 body.level5{
@@ -641,6 +661,8 @@ body.level5{
   max-width: 11ch;
   line-height: 1.05;
   transform: rotate(-2deg);
+  opacity: 1;
+  transition: opacity 0.32s ease, transform 0.32s ease;
 }
 
 .l9-btn{
@@ -648,49 +670,18 @@ body.level5{
   transform: none;
   min-width: 220px;
   font-size: 28px;
+  opacity: 1;
+  transition: opacity 0.32s ease, transform 0.32s ease;
 }
 
 .l9-btn:active{
   transform: scale(0.97);
 }
 
-.l9-browser-alert{
-  align-items: flex-start;
-  padding-top: clamp(36px, 8vh, 72px);
-  background: rgba(0, 0, 0, 0.12);
-}
-
-.l9-browser-alert-card{
-  width: min(460px, 100%);
-  border-radius: 10px;
-  box-shadow: 6px 6px 0 #000;
-  text-align: left;
-}
-
-.l9-browser-alert-card h3{
-  font-size: clamp(26px, 4vw, 34px);
-  opacity: 1;
-  animation: none;
-}
-
-.l9-browser-alert-text{
-  margin: 14px 0 0;
-  font-size: 24px;
-  line-height: 1.15;
-}
-
-.l9-browser-alert-actions{
-  justify-content: flex-end;
-}
-
-.l9-browser-btn{
-  opacity: 1;
-  animation: none;
-  min-width: 140px;
-}
-
-.l9-browser-btn-primary{
-  background: #ececec;
+.l9-fade-hidden{
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
 }
 
 .l9-fake-pass-card{
@@ -889,12 +880,8 @@ body.level5{
 .modal-btn:nth-child(3){ animation-delay: 0.45s; }
 
 @media (max-width: 640px){
-  .l9-browser-alert-actions{
-    justify-content: center;
-  }
-
-  .l9-browser-btn{
-    min-width: 120px;
+  .l9-btn{
+    min-width: 180px;
   }
 }
 
