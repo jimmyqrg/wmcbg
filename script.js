@@ -26,6 +26,8 @@ const levelPassModal = document.getElementById('levelPassModal');
 const nextBtn = document.getElementById('nextBtn');
 const playAgainBtn = document.getElementById('playAgainBtn');
 const levelsBtn = document.getElementById('levelsBtn');
+const l9AlertModal = document.getElementById('l9AlertModal');
+const l9ReloadBtn = document.getElementById('l9ReloadBtn');
 const l9FakePassModal = document.getElementById('l9FakePassModal');
 const l9FakeNextBtn = document.getElementById('l9FakeNextBtn');
 
@@ -225,6 +227,7 @@ function startLevel(n, animate, useTransition = true){
 
   showScreen(gameScreen);
   levelPassModal.classList.add('hidden');
+  l9AlertModal.classList.add('hidden');
   l9FakePassModal.classList.add('hidden');
 
   if(animate){
@@ -755,6 +758,7 @@ function cleanupLevel9(){
   l9StepTimers = [];
   l9GuardActive = false;
   l9Failing = false;
+  l9AlertModal.classList.add('hidden');
   l9FakePassModal.classList.add('hidden');
   l9Text.textContent = "DON'T CLICK ANYTHING";
   l9Text.classList.add('l9-fade-hidden');
@@ -769,6 +773,7 @@ function failLevel9(){
 
   l9Failing = true;
   l9GuardActive = false;
+  l9AlertModal.classList.add('hidden');
   l9FakePassModal.classList.add('hidden');
   showToast('FAILED');
 
@@ -803,19 +808,33 @@ function showL9BrowserAlert(){
     return;
   }
 
-  window.alert('Page not responding');
+  l9AlertModal.classList.remove('hidden');
 
-  if(level !== 9 || l9Failing){
-    return;
-  }
+  addL9Timer(() => {
+    if(level !== 9 || l9Failing){
+      return;
+    }
 
-  failLevel9();
+    l9AlertModal.classList.add('hidden');
+    l9FakePassModal.classList.remove('hidden');
+
+    addL9Timer(() => {
+      if(level !== 9 || l9Failing){
+        return;
+      }
+
+      l9FakePassModal.classList.add('hidden');
+      l9GuardActive = false;
+      onLevelPassed(9);
+    }, 3000);
+  }, 5000);
 }
 
 function setupLevel9(){
   btn.style.display = 'none';
   l9Area.classList.remove('hidden');
   l9Text.textContent = "DON'T CLICK ANYTHING";
+  l9AlertModal.classList.add('hidden');
   l9FakePassModal.classList.add('hidden');
   l9Text.classList.add('l9-fade-hidden');
   l9ClickMeBtn.classList.add('l9-fade-hidden');
@@ -858,6 +877,7 @@ document.addEventListener('keydown', l9InputGuard, true);
 
 l9ClickMeBtn.addEventListener('click', failLevel9);
 l9RealBtn.addEventListener('click', failLevel9);
+l9ReloadBtn.addEventListener('click', failLevel9);
 l9FakeNextBtn.addEventListener('click', failLevel9);
 
 document.addEventListener('click', (e) => {

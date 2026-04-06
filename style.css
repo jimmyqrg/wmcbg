@@ -677,6 +677,42 @@ body.level5{
   transform: scale(0.97);
 }
 
+.l9-alert-modal{
+  align-items: flex-start;
+  padding-top: clamp(36px, 8vh, 72px);
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.l9-alert-card{
+  width: min(420px, 100%);
+  border-radius: 10px;
+  box-shadow: 6px 6px 0 #000;
+  text-align: left;
+}
+
+.l9-alert-card h3{
+  font-size: clamp(26px, 4vw, 34px);
+  opacity: 1;
+  animation: none;
+}
+
+.l9-alert-text{
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.l9-alert-actions{
+  justify-content: flex-end;
+}
+
+.l9-alert-btn{
+  opacity: 1;
+  animation: none;
+  min-width: 120px;
+  background: #ececec;
+}
+
 .l9-fade-hidden{
   opacity: 0;
   transform: translateY(10px);
@@ -883,6 +919,10 @@ body.level5{
 .modal-btn:nth-child(3){ animation-delay: 0.45s; }
 
 @media (max-width: 640px){
+  .l9-alert-actions{
+    justify-content: center;
+  }
+
   .l9-btn{
     min-width: 180px;
   }
