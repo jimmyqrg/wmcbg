@@ -791,6 +791,7 @@ body.level5{
   align-items: center;
   gap: 10px;
   padding: 10px 14px;
+  padding-top: 52px;
   background: var(--paper);
   color: var(--ink);
   border-bottom: 2.5px solid #000;
