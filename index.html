@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Protest+Riot&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -81,6 +82,42 @@
         <p id="l9Text" class="l9-text">DON'T CLICK ANYTHING</p>
         <button id="l9ClickMeBtn" class="btn l9-btn hidden">CLICK ME</button>
         <button id="l9RealBtn" class="btn l9-btn hidden">REAL BUTTON</button>
+      </div>
+
+      <!-- Level 10 -->
+      <div id="l10Area" class="l10-area hidden">
+        <!-- Chat app -->
+        <div id="l10Chat" class="l10-chat">
+          <div class="l10-chat-header">
+            <span class="l10-chat-avatar">S</span>
+            <span class="l10-chat-name">SuperGamer002</span>
+          </div>
+          <div id="l10Messages" class="l10-messages">
+            <!-- Hidden close button – scrolled above visible area -->
+            <button id="l10CloseBtn" class="l10-close-btn" aria-label="Close chat">&times;</button>
+          </div>
+          <div class="l10-input-bar">
+            <input id="l10Input" type="text" class="l10-input" placeholder="Type a message..." autocomplete="off" />
+            <button id="l10SendBtn" class="l10-send-btn">
+              <svg viewBox="0 0 24 24" width="22" height="22"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" fill="currentColor"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Phone home screen (replaces chat when close btn clicked) -->
+        <div id="l10Phone" class="l10-phone hidden">
+          <div class="l10-phone-status">9:41</div>
+          <div class="l10-phone-grid">
+            <button id="l10PhoneChatApp" class="l10-phone-app">
+              <span class="material-symbols-outlined l10-app-icon-chat">chat</span>
+              <span class="l10-app-label">Messages</span>
+            </button>
+            <button id="l10PhoneGptApp" class="l10-phone-app">
+              <img src="chatgpt.png" alt="ChatGPT" class="l10-app-icon-img" />
+              <span class="l10-app-label">ChatGPT</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
