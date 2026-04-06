@@ -748,27 +748,35 @@ body.level5{
 .l10-close-btn{
   align-self: flex-end;
   flex-shrink: 0;
-  background: rgba(0,0,0,0.35);
-  color: #fff;
-  border: none;
+  background: var(--paper);
+  color: var(--ink);
+  border: 2px solid #000;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  font-size: 18px;
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
   line-height: 1;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 4px;
-  opacity: 0.6;
+  box-shadow: 2px 2px 0 #000;
+  opacity: 0.55;
+  font-family: "Patrick Hand", cursive;
 }
 
 .l10-chat{
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: #eae6df;
+  background:
+    repeating-linear-gradient(
+      var(--paper),
+      var(--paper) 31px,
+      #d6e5ff 31px,
+      #d6e5ff 32px
+    );
 }
 
 .l10-chat-header{
@@ -776,8 +784,9 @@ body.level5{
   align-items: center;
   gap: 10px;
   padding: 10px 14px;
-  background: #075e54;
-  color: #fff;
+  background: var(--paper);
+  color: var(--ink);
+  border-bottom: 2.5px solid #000;
   font-family: "Patrick Hand", cursive;
   font-size: 20px;
   font-weight: 700;
@@ -788,12 +797,15 @@ body.level5{
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: #25d366;
+  background: var(--accent);
+  color: #fff;
+  border: 2px solid #000;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 18px;
   font-weight: 700;
+  box-shadow: 2px 2px 0 #000;
 }
 
 .l10-chat-name{
@@ -818,27 +830,26 @@ body.level5{
   line-height: 1.35;
   word-wrap: break-word;
   white-space: pre-wrap;
+  border: 2px solid #000;
+  box-shadow: 3px 3px 0 #000;
 }
 
 .l10-msg.them{
   align-self: flex-start;
   background: #fff;
-  border: 1.5px solid #ccc;
   border-top-left-radius: 2px;
 }
 
 .l10-msg.me{
   align-self: flex-end;
-  background: #dcf8c6;
-  border: 1.5px solid #b2d8a0;
+  background: #e8f7d4;
   border-top-right-radius: 2px;
 }
 
 .l10-msg.system{
   align-self: center;
   max-width: 90%;
-  background: #ffeeba;
-  border: 1.5px solid #e0c972;
+  background: #fff4d2;
   text-align: center;
   font-size: 15px;
   border-radius: 8px;
@@ -848,9 +859,10 @@ body.level5{
   align-self: flex-start;
   padding: 7px 14px;
   background: #fff;
-  border: 1.5px solid #ccc;
+  border: 2px solid #000;
   border-radius: 10px;
   border-top-left-radius: 2px;
+  box-shadow: 3px 3px 0 #000;
   font-family: "Patrick Hand", cursive;
   font-size: 17px;
   color: #888;
@@ -872,49 +884,59 @@ body.level5{
   align-items: center;
   gap: 8px;
   padding: 8px 10px;
-  background: #f0f0f0;
-  border-top: 1px solid #ccc;
+  background: var(--paper);
+  border-top: 2.5px solid #000;
   flex-shrink: 0;
 }
 
 .l10-input{
   flex: 1;
-  border: 1.5px solid #ccc;
-  border-radius: 20px;
+  border: 2px solid #000;
+  border-radius: 12px;
   padding: 8px 14px;
   font-family: "Patrick Hand", cursive;
   font-size: 17px;
   outline: none;
   background: #fff;
+  box-shadow: 2px 2px 0 #000;
 }
 
 .l10-input:focus{
-  border-color: #075e54;
+  border-color: var(--accent);
+  box-shadow: 2px 2px 0 var(--accent);
 }
 
 .l10-send-btn{
-  background: #075e54;
-  border: none;
+  background: #fff;
+  border: 2px solid #000;
   border-radius: 50%;
   width: 38px;
   height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: var(--ink);
   cursor: pointer;
   flex-shrink: 0;
+  box-shadow: 2px 2px 0 #000;
 }
 
 .l10-send-btn:active{
   transform: scale(0.92);
+  box-shadow: 1px 1px 0 #000;
 }
 
 /* Phone home screen */
 .l10-phone{
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background:
+    repeating-linear-gradient(
+      var(--paper),
+      var(--paper) 31px,
+      #d6e5ff 31px,
+      #d6e5ff 32px
+    );
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -925,10 +947,11 @@ body.level5{
   width: 100%;
   text-align: center;
   padding: 10px 0 6px;
-  color: #fff;
+  color: var(--ink);
   font-family: "Patrick Hand", cursive;
   font-size: 18px;
   font-weight: 700;
+  border-bottom: 2px dashed #bbb;
 }
 
 .l10-phone-grid{
@@ -951,24 +974,28 @@ body.level5{
 .l10-app-icon-chat{
   width: 60px;
   height: 60px;
-  background: #25d366;
-  border-radius: 16px;
+  background: #fff;
+  border: 2px solid #000;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 32px;
-  color: #fff;
+  color: var(--ink);
+  box-shadow: 3px 3px 0 #000;
 }
 
 .l10-app-icon-img{
   width: 60px;
   height: 60px;
-  border-radius: 16px;
+  border: 2px solid #000;
+  border-radius: 14px;
   object-fit: cover;
+  box-shadow: 3px 3px 0 #000;
 }
 
 .l10-app-label{
-  color: #fff;
+  color: var(--ink);
   font-family: "Patrick Hand", cursive;
   font-size: 14px;
   font-weight: 700;
