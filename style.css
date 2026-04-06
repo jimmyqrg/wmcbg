@@ -828,8 +828,31 @@ body.level5{
   gap: 6px;
 }
 
-.l10-msg{
+.l10-msg-wrap{
+  display: flex;
+  flex-direction: column;
   max-width: 82%;
+}
+
+.l10-msg-wrap.them{
+  align-self: flex-start;
+}
+
+.l10-msg-wrap.me{
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.l10-msg-name{
+  font-family: "Patrick Hand", cursive;
+  font-size: 12px;
+  font-weight: 700;
+  color: #888;
+  margin-bottom: 2px;
+  padding-left: 4px;
+}
+
+.l10-msg{
   padding: 7px 12px;
   border-radius: 10px;
   font-family: "Patrick Hand", cursive;
@@ -842,13 +865,11 @@ body.level5{
 }
 
 .l10-msg.them{
-  align-self: flex-start;
   background: #fff;
   border-top-left-radius: 2px;
 }
 
 .l10-msg.me{
-  align-self: flex-end;
   background: #e8f7d4;
   border-top-right-radius: 2px;
 }

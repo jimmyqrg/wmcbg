@@ -1033,12 +1033,19 @@ function cleanupLevel10(){
 }
 
 function l10AddMsg(text, cls){
-  const div = document.createElement('div');
-  div.className = 'l10-msg ' + cls;
-  div.textContent = text;
-  l10Messages.appendChild(div);
+  const wrap = document.createElement('div');
+  wrap.className = 'l10-msg-wrap ' + cls;
+  const label = document.createElement('span');
+  label.className = 'l10-msg-name';
+  label.textContent = cls === 'me' ? 'You' : 'SuperGamer002';
+  const bubble = document.createElement('div');
+  bubble.className = 'l10-msg ' + cls;
+  bubble.textContent = text;
+  wrap.appendChild(label);
+  wrap.appendChild(bubble);
+  l10Messages.appendChild(wrap);
   l10Messages.scrollTop = l10Messages.scrollHeight;
-  return div;
+  return bubble;
 }
 
 function l10ShowTyping(){
