@@ -1193,6 +1193,7 @@ function l10AutoAnswer(){
   if(level !== 10) return;
   l10ChatGptMode = true;
   l10OpenChatFromPhone();
+  l10Area.scrollTop = l10Area.scrollHeight;
   l10RunAutoAnswer();
 }
 
