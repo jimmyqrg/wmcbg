@@ -1026,10 +1026,7 @@ function cleanupLevel10(){
   l10PhoneUnlocked = false;
   l10QuestionIndex = 0;
   l10GamePicks = [];
-  // Preserve the close button, clear only messages
-  while(l10Messages.lastChild && l10Messages.lastChild !== l10CloseBtn){
-    l10Messages.removeChild(l10Messages.lastChild);
-  }
+  l10Messages.innerHTML = '';
   l10Input.value = '';
   l10Phone.classList.add('hidden');
   l10Chat.classList.remove('hidden');
@@ -1156,10 +1153,7 @@ function l10HandleUserMessage(text){
 }
 
 function l10StartChat(){
-  // Clear messages but keep the close button
-  while(l10Messages.lastChild && l10Messages.lastChild !== l10CloseBtn){
-    l10Messages.removeChild(l10Messages.lastChild);
-  }
+  l10Messages.innerHTML = '';
   l10QuestionIndex = 0;
   l10WaitingForAnswer = false;
   l10ChatGptMode = false;
@@ -1226,6 +1220,11 @@ function setupLevel10(){
   l10Chat.classList.remove('hidden');
   l10PhoneUnlocked = false;
   l10ChatGptMode = false;
+
+  // Scroll past the hidden close button + spacer so only the chat is visible
+  requestAnimationFrame(() => {
+    l10Area.scrollTop = l10Area.scrollHeight;
+  });
 
   l10StartChat();
 }

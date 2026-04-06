@@ -86,16 +86,17 @@
 
       <!-- Level 10 -->
       <div id="l10Area" class="l10-area hidden">
+        <!-- Close button hidden above the visible area – scroll up to find it -->
+        <button id="l10CloseBtn" class="l10-close-btn" aria-label="Close chat">&times;</button>
+        <div class="l10-scroll-pad"></div>
+
         <!-- Chat app -->
         <div id="l10Chat" class="l10-chat">
           <div class="l10-chat-header">
             <span class="l10-chat-avatar">S</span>
             <span class="l10-chat-name">SuperGamer002</span>
           </div>
-          <div id="l10Messages" class="l10-messages">
-            <!-- Hidden close button – scrolled above visible area -->
-            <button id="l10CloseBtn" class="l10-close-btn" aria-label="Close chat">&times;</button>
-          </div>
+          <div id="l10Messages" class="l10-messages"></div>
           <div class="l10-input-bar">
             <input id="l10Input" type="text" class="l10-input" placeholder="Type a message..." autocomplete="off" />
             <button id="l10SendBtn" class="l10-send-btn">
