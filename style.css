@@ -75,6 +75,8 @@ body{
   max-width: 14ch;
   font-size: clamp(34px, 8vw, 58px);
   line-height: 1.04;
+  transform: rotate(-2deg);
+  transform-origin: center;
   opacity: 0;
 }
 
@@ -82,6 +84,8 @@ body{
   margin-top: 0;
   align-self: flex-end;
   font-size: clamp(20px, 3.2vw, 28px);
+  transform: rotate(2deg);
+  transform-origin: right center;
   opacity: 0;
 }
 
@@ -99,12 +103,12 @@ body{
 }
 
 .home-screen.loaded .home-title{
-  animation: slideDown 0.6s ease forwards;
+  animation: slideDownTiltLeft 0.6s ease forwards;
   animation-delay: 0.1s;
 }
 
 .home-screen.loaded .home-subtitle{
-  animation: slideLeft 0.6s ease forwards;
+  animation: slideLeftTiltRight 0.6s ease forwards;
   animation-delay: 0.5s;
 }
 
@@ -121,6 +125,16 @@ body{
 @keyframes slideLeft{
   0%{ opacity: 0; transform: translateX(60px); }
   100%{ opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideDownTiltLeft{
+  0%{ opacity: 0; transform: translateY(-50px) rotate(-6deg); }
+  100%{ opacity: 1; transform: translateY(0) rotate(-2deg); }
+}
+
+@keyframes slideLeftTiltRight{
+  0%{ opacity: 0; transform: translateX(60px) rotate(6deg); }
+  100%{ opacity: 1; transform: translateX(0) rotate(2deg); }
 }
 
 @keyframes slideUp{
